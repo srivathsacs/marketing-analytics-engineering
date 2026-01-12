@@ -1,0 +1,41 @@
+version: 2
+
+sources:
+  - name: raw
+    database: marketing_analytics
+    schema: raw
+    tables:
+      - name: users
+        description: Raw users table ingested by Fivetran
+        columns:
+          - name: user_id
+            description: Primary key for users
+            tests:
+              - not_null
+              - unique
+
+      - name: user_sources
+        description: Raw marketing attribution per user
+        columns:
+          - name: user_id
+            description: Foreign key to users
+            tests:
+              - not_null
+
+models:
+  - name: stg_users
+    description: Cleaned and standardized users
+    columns:
+      - name: user_id
+        description: Primary key for users
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_user_sources
+    description: User-level marketing channel mapping
+    columns:
+      - name: user_id
+        description: Links each user to their acquisition channel
+        tests:
+          - not_null
