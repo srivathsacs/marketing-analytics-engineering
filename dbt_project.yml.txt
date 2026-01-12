@@ -1,0 +1,19 @@
+name: 'marketing_analytics_engineering'
+version: '1.0.0'
+config-version: 2
+
+profile: 'default'
+
+model-paths: ["models"]
+
+models:
+  marketing_analytics_engineering:
+    +database: MARKETING_ANALYTICS
+
+    staging:
+      +schema: STAGING
+      +materialized: view
+
+    marts:
+      +schema: MARTS
+      +materialized: table
