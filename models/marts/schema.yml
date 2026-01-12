@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: mart_users
+    description: One row per user with core user attributes
+    columns:
+      - name: user_id
+        description: Primary key for users
+        tests:
+          - not_null
+          - unique
+
+  - name: mart_users_with_source
+    description: Users enriched with marketing acquisition source
+    columns:
+      - name: user_id
+        description: Primary key for users
+        tests:
+          - not_null
+          - unique
+
+  - name: mart_channel_performance
+    description: Aggregated performance metrics by marketing channel
+    columns:
+      - name: channel
+        description: Marketing channel name
+        tests:
+          - not_null
