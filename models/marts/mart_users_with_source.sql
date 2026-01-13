@@ -1,7 +1,7 @@
 select
     u.user_id,
     u.email,
-    u.signup_date,
+    u.created_at,
     s.source,
     s.campaign
 from {{ ref('stg_users') }} u

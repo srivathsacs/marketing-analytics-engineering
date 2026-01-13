@@ -2,18 +2,21 @@ version: 2
 
 models:
   - name: stg_users
-    description: "Cleaned and standardized users"
+    description: >
+      Cleaned and standardized view of raw user data.
+      One row per user, with consistent naming used across all downstream analytics models.
+
     columns:
       - name: user_id
-        description: "Primary key for users"
+        description: Unique identifier for each user.
         tests:
           - not_null
           - unique
 
-  - name: stg_user_sources
-    description: "User-level marketing channel mapping"
-    columns:
-      - name: user_id
-        description: "Links each user to their acquisition channel"
+      - name: email
+        description: Email address associated with the user.
+
+      - name: created_at
+        description: Timestamp when the user signed up or was first created.
         tests:
           - not_null
