@@ -1,39 +1,47 @@
-# marketing-analytics-engineering
+# Marketing Analytics Engineering
 
-This project simulates a modern marketing analytics warehouse for a direct-to-consumer ecommerce company.
+This project simulates a **modern marketing analytics warehouse** for a direct-to-consumer ecommerce business.
 
-It demonstrates how raw marketing and ecommerce data can be transformed into
-analytics-ready tables that power BI dashboards and performance reporting.
+It transforms **raw ad and ecommerce data** into **analytics-ready tables** that answer questions like:
+1. How much revenue did each channel generate?
+2. What are CAC, ROAS, and LTV by campaign?
+3. Which channels are profitable?
 
-The goal is to show:
-- clean SQL transformations
-- dimensional modeling
-- data validation
-- marketing metrics such as revenue, CAC, ROAS, and LTV
+Built with **dbt** using analytics engineering best practices: *staging → facts & dimensions → metrics*.
 
-This is built using synthetic data and does not use any real company or customer information.
+All data is **synthetic**.
+
+---
+
+## What This Project Shows
+
+- SQL-based transformations  
+- Dimensional modeling  
+- Data quality testing  
+- Marketing performance metrics  
+
+Designed for BI dashboards and reporting.
+
+---
+
+## Architecture
+
+
+Sources → Raw Tables → dbt Staging → dbt Analytics → BI
+
+
+---
 
 ## What’s Next
-1. Continue dbt
 
-Add more models, tests, and metrics
+1. **Expand dbt**
+   - Add more models, tests, and metrics  
 
-Improve docs and exposures
+2. **Improve schema.yml**
+   - Add column tests and business definitions  
 
-2. Improve schema.yml
+3. **Add Fivetran**
+   - Ingest Google Ads, Facebook Ads, Shopify, Stripe  
 
-Add column tests and business definitions
-
-Add source freshness checks
-
-3. Add Fivetran
-
-Ingest Google Ads, Facebook Ads, Shopify, Stripe
-
-Load raw data → transform with dbt
-
-4. Portfolio polish
-
-Add architecture diagram and ERD
-
-Add example dashboards and business use cases
+4. **Portfolio polish**
+   - Add diagrams and example dashboards  
