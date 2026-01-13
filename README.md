@@ -2,23 +2,48 @@
 
 This project simulates a **modern marketing analytics warehouse** for a direct-to-consumer ecommerce business.
 
-It transforms **raw ad and ecommerce data** into **analytics-ready tables** that answer questions like:
-1. How much revenue did each channel generate?
-2. What are CAC, ROAS, and LTV by campaign?
+It transforms **raw marketing and ecommerce data** into **analytics-ready tables** that answer questions like:  
+1. How much revenue did each channel generate?  
+2. What are CAC, ROAS, and LTV by campaign?  
 3. Which channels are profitable?
 
-Built with **dbt** using analytics engineering best practices: *staging → facts & dimensions → metrics*.
+Built with **dbt** using analytics engineering best practices: *raw → staging → intermediate → marts*.
 
-All data is **synthetic**.
+All data is currently **synthetic**, but the pipeline is designed to work with **live data via Fivetran**.
+
+---
+
+## Tech Stack
+
+- Snowflake (trial account)  
+- dbt Core (local)  
+- Fivetran (trial)  
+- GitHub  
+- SQL  
+
+*Note: dbt Cloud was used initially during a trial period. The project now runs locally on dbt Core.*
+
+---
+
+## Running Without Trial Accounts
+
+This project is warehouse- and ingestion-tool agnostic.
+
+If Snowflake or Fivetran trial accounts expire, you can run the same dbt project by:
+- Connecting dbt to any supported warehouse (Snowflake, BigQuery, Redshift, Postgres)
+- Loading the required `RAW` tables using any ingestion method (Fivetran, Airbyte, manual loads, or CSVs)
+
+As long as the `RAW` tables follow the data contract (`users`, `orders`, `user_sources`, `marketing_spend`), all dbt models will run without changes.
 
 ---
 
 ## What This Project Shows
 
+- End-to-end ELT pipeline (Fivetran → Snowflake → dbt)  
 - SQL-based transformations  
-- Dimensional modeling  
+- Dimensional modeling (facts and dimensions)  
+- Attribution, CAC, ROAS, and LTV modeling  
 - Data quality testing  
-- Marketing performance metrics  
 
 Designed for BI dashboards and reporting.
 
@@ -26,22 +51,42 @@ Designed for BI dashboards and reporting.
 
 ## Architecture
 
-
-Sources → Raw Tables → dbt Staging → dbt Analytics → BI
-
+Fivetran → Snowflake (RAW) → dbt Staging → dbt Analytics → BI
 
 ---
 
-## What’s Next
+## Data Requirements
 
-1. **Expand dbt**
-   - Add more models, tests, and metrics  
+dbt expects the following tables in the Snowflake **RAW** schema:
 
-2. **Improve schema.yml**
-   - Add column tests and business definitions  
+- `users`  
+- `orders`  
+- `user_sources`  
+- `marketing_spend`  
 
-3. **Add Fivetran**
-   - Ingest Google Ads, Facebook Ads, Shopify, Stripe  
+These tables are populated with synthetic data now and will be loaded by **Fivetran** in production.
 
-4. **Portfolio polish**
-   - Add diagrams and example dashboards  
+---
+
+## Outputs
+
+The dbt models produce analytics-ready tables including:
+- Channel-level revenue  
+- Campaign-level CAC and ROAS  
+- Customer lifetime value (LTV)  
+- Attributed order and revenue models  
+
+These tables are designed to be consumed directly by BI tools.
+
+---
+
+## How to Run
+
+1. Create a Snowflake database and a schema named `RAW`
+2. Configure `profiles.yml` to connect dbt to Snowflake
+3. Run the project:
+
+```bash
+dbt deps
+dbt run
+dbt test
