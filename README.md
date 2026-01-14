@@ -11,6 +11,7 @@ Built with **dbt** using analytics engineering best practices: *raw → staging 
 
 All data is currently **synthetic**, but the pipeline is designed to work with **live data via Fivetran**.
 
+---
 
 ## Marketing Analytics Dashboard
 
@@ -97,3 +98,12 @@ These tables are designed to be consumed directly by BI tools.
 dbt deps
 dbt run
 dbt test
+
+---
+
+## Future Enhancements
+
+- Add CI/CD with GitHub Actions to automatically run dbt tests and deploy models  
+- Add Power BI slicers for date, channel, and campaign   
+- Add data quality monitoring and alerts  
+- Replace Fivetran with another ingestion tool (Airbyte, manual loads, or CSVs) once the trial expires
