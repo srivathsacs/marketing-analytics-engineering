@@ -16,6 +16,6 @@ select
     s.campaign
 from orders o
 left join users u
-    on o.customer_name = u.email
+    on o.USER_ID = u.USER_ID
 left join user_sources s
     on u.user_id = s.user_id

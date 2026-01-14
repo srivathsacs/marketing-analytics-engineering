@@ -3,6 +3,7 @@ with source as (
 )
 select
     "id"            as order_id,
+    "USER_ID"       as user_id,
     "customer_name" as customer_name,
     "product"       as product,
     "amount"        as revenue,
