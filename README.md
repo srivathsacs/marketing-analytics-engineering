@@ -98,6 +98,7 @@ These tables are designed to be consumed directly by BI tools.
 dbt deps
 dbt run
 dbt test
+```
 
 ---
 
