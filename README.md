@@ -11,6 +11,13 @@ Built with **dbt** using analytics engineering best practices: *raw → staging 
 
 All data is currently **synthetic**, but the pipeline is designed to work with **live data via Fivetran**.
 
+
+## Marketing Analytics Dashboard
+
+This dashboard shows revenue, customer acquisition cost (CAC), return on ad spend (ROAS), and lifetime value (LTV) by marketing channel, built on a modern ELT stack (Supabase → Fivetran → Snowflake → dbt → Power BI).
+
+![Marketing Analytics](dashboard.png)
+
 ---
 
 ## Tech Stack
