@@ -62,7 +62,9 @@ models/
 ---
 
 ## Local Development Setup
-This project runs locally using **dbt Core**. Cloud orchestration tools are not required.
+This project runs locally using **dbt Core**. Cloud orchestration tools are not required. 
+
+Environment variables can be configured using the provided `.env.example` file.
 
 ---
 
