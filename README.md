@@ -1,110 +1,173 @@
-# Marketing Analytics Engineering
+# Marketing Analytics Engineering Platform
 
-This project simulates a **modern marketing analytics warehouse** for a direct-to-consumer ecommerce business.
+## Overview
+This project demonstrates an end-to-end **marketing analytics engineering workflow**, transforming raw marketing and transactional data into analytics-ready models and business metrics.
 
-It transforms **raw marketing and ecommerce data** into **analytics-ready tables** that answer questions like:  
-1. How much revenue did each channel generate?  
-2. What are CAC, ROAS, and LTV by campaign?  
-3. Which channels are profitable?
+It reflects a real-world analytics stack used by growth, marketing, and finance teams to evaluate performance, attribution, and ROI.
 
-Built with **dbt** using analytics engineering best practices: *raw → staging → intermediate → marts*.
-
-All data is currently **synthetic**, but the pipeline is designed to work with **live data via Fivetran**.
+The project is implemented using **dbt Core** and follows analytics engineering best practices including layered modeling, data quality testing, and metric standardization.
 
 ---
 
-## Marketing Analytics Dashboard
-
-This dashboard shows revenue, customer acquisition cost (CAC), return on ad spend (ROAS), and lifetime value (LTV) by marketing channel, built on a modern ELT stack (Supabase → Fivetran → Snowflake → dbt → Power BI).
-
-![Marketing Analytics](dashboard.png)
+## Key Features
+- End-to-end marketing analytics pipeline
+- dbt-based transformation layer (raw → staging → marts)
+- Business-ready metrics such as CAC, ROAS, and LTV
+- Data quality and integrity testing
+- Analytics-ready fact and dimension tables
+- Example BI dashboard for stakeholder consumption
 
 ---
 
 ## Tech Stack
-
-- Snowflake (trial account)  
-- dbt Core (local)  
-- Fivetran (trial)  
-- GitHub  
-- SQL  
-
-*Note: dbt Cloud was used initially during a trial period. The project now runs locally on dbt Core.*
-
----
-
-## Running Without Trial Accounts
-
-This project is warehouse- and ingestion-tool agnostic.
-
-If Snowflake or Fivetran trial accounts expire, you can run the same dbt project by:
-- Connecting dbt to any supported warehouse (Snowflake, BigQuery, Redshift, Postgres)
-- Loading the required `RAW` tables using any ingestion method (Fivetran, Airbyte, manual loads, or CSVs)
-
-As long as the `RAW` tables follow the data contract (`users`, `orders`, `user_sources`, `marketing_spend`), all dbt models will run without changes.
-
----
-
-## What This Project Shows
-
-- End-to-end ELT pipeline (Fivetran → Snowflake → dbt)  
-- SQL-based transformations  
-- Dimensional modeling (facts and dimensions)  
-- Attribution, CAC, ROAS, and LTV modeling  
-- Data quality testing  
-
-Designed for BI dashboards and reporting.
+- **Data Warehouse:** Snowflake
+- **Transformation:** dbt Core
+- **Modeling:** Dimensional (facts & dimensions)
+- **Visualization:** BI dashboard (sample output included)
+- **Development Mode:** Local execution (no dbt Cloud required)
 
 ---
 
 ## Architecture
+```text
+Marketing Sources / Transactions
+            ↓
+        Snowflake (RAW)
+            ↓
+          dbt Core
+  (staging → intermediate → marts)
+            ↓
+       BI / Analytics Layer
+```
 
-Fivetran → Snowflake (RAW) → dbt Staging → dbt Analytics → BI
-
----
-
-## Data Requirements
-
-dbt expects the following tables in the Snowflake **RAW** schema:
-
-- `users`  
-- `orders`  
-- `user_sources`  
-- `marketing_spend`  
-
-These tables are populated with synthetic data now and will be loaded by **Fivetran** in production.
+This architecture mirrors a production analytics stack while remaining fully runnable in a local development environment.
 
 ---
 
-## Outputs
-
-The dbt models produce analytics-ready tables including:
-- Channel-level revenue  
-- Campaign-level CAC and ROAS  
-- Customer lifetime value (LTV)  
-- Attributed order and revenue models  
-
-These tables are designed to be consumed directly by BI tools.
+## Project Structure
+```text
+models/
+├── staging/
+├── intermediate/
+├── marts/
+```
 
 ---
 
-## How to Run
+## Layering Principles
+- **Staging:** One-to-one with source tables, minimal logic
+- **Intermediate:** Shared transformations and joins
+- **Marts:** Business metrics optimized for analytics and BI
 
-1. Create a Snowflake database and a schema named `RAW`
-2. Configure `profiles.yml` to connect dbt to Snowflake
-3. Run the project:
+---
 
+## Local Development Setup
+This project runs locally using **dbt Core**. Cloud orchestration tools are not required.
+
+---
+
+## Prerequisites
+- Python 3.9+
+- Snowflake account
+- pip
+
+---
+
+## Step 1: Install dbt
 ```bash
-dbt deps
+pip install dbt-snowflake
+```
+
+---
+
+## Step 2: Configure dbt profile
+Create or update `~/.dbt/profiles.yml`:
+
+```yaml
+marketing_analytics:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: <account>
+      user: <user>
+      password: <password>
+      role: <role>
+      warehouse: <warehouse>
+      database: <database>
+      schema: raw
+      threads: 4
+```
+
+---
+
+## Step 3: Verify connection
+```bash
+dbt debug
+```
+
+---
+
+## Step 4: Run models and tests
+```bash
 dbt run
 dbt test
 ```
 
 ---
 
-## Future Enhancements
+## Step 5: Generate documentation
+```bash
+dbt docs generate
+dbt docs serve
+```
 
-- Add CI/CD with GitHub Actions to automatically run dbt tests and deploy models  
-- Add Power BI slicers for date, channel, and campaign   
-- Add data quality monitoring and alerts  
-- Replace Fivetran with another ingestion tool (Airbyte, manual loads, or CSVs) once the trial expires
+---
+
+## Data Quality & Testing
+This project includes dbt tests to ensure:
+- Primary key uniqueness and non-null constraints
+- Referential integrity between fact and dimension tables
+- Consistency of core business metrics
+
+---
+
+## Data Contracts & Assumptions
+- One row per user in the users table
+- One row per order in the orders table
+- Marketing spend is reported daily at the campaign level
+- Attribution model is last-touch
+- All monetary values are in a single currency
+
+---
+
+## Analytics Output
+The final marts layer powers an example BI dashboard that answers:
+- How much are we spending to acquire customers?
+- Which campaigns generate the highest ROAS?
+- How does customer lifetime value compare across channels?
+
+A sample dashboard output is included in the repository.
+
+---
+
+## Why This Project
+This project was built to demonstrate:
+- Analytics engineering best practices
+- Real-world marketing analytics modeling
+- How raw operational data becomes decision-ready metrics
+- Clear separation of concerns in data transformations
+
+---
+
+## Future Enhancements
+- CI-based dbt testing
+- Incremental models for large fact tables
+- Multi-touch attribution modeling
+- Orchestration with Airflow or Prefect
+- Environment separation (dev / prod)
+
+---
+
+## Notes
+This repository is intentionally designed to run locally using open-source tooling. Cloud-native features are represented conceptually where appropriate.
