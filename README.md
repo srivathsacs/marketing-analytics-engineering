@@ -140,6 +140,8 @@ This project uses dbt schema tests defined alongside models in `schema.yml` file
 - Relationship tests to ensure referential integrity between staging and mart layers
 - Validation of required fields that support downstream analytics and BI
 
+Manual metric validation queries are included in the `analysis/` directory to sanity-check joins and business metrics after builds.
+
 
 ---
 
@@ -177,6 +179,12 @@ This project was built to demonstrate:
 - Multi-touch attribution modeling
 - Orchestration with Airflow or Prefect
 - Environment separation (dev / prod)
+
+---
+
+## CI / Production Considerations
+
+In a production environment, this project would include CI checks on pull requests to validate analytics changes before deployment. At a minimum, CI would run `dbt compile` and `dbt test` to catch schema changes, data quality issues, and broken relationships early in the development workflow.
 
 ---
 
