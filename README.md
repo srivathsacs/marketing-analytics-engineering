@@ -44,6 +44,14 @@ This architecture mirrors a production analytics stack while remaining fully run
 
 ---
 
+## dbt Lineage
+
+The following lineage graph, generated using dbt docs, illustrates how raw source data flows through staging, intermediate, and mart layers to produce analytics-ready tables and business metrics.
+
+![dbt Lineage Graph](dbt-lineage.png)
+
+---
+
 ## Project Structure
 ```text
 models/
@@ -150,7 +158,7 @@ The final marts layer powers an example BI dashboard that answers:
 - Which campaigns generate the highest ROAS?
 - How does customer lifetime value compare across channels?
 
-A sample dashboard output is included in the repository.
+![Marketing Analytics Dashboard](dashboard.png)
 
 ---
 
