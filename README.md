@@ -127,10 +127,11 @@ dbt docs serve
 ---
 
 ## Data Quality & Testing
-This project includes dbt tests to ensure:
-- Primary key uniqueness and non-null constraints
-- Referential integrity between fact and dimension tables
-- Consistency of core business metrics
+This project uses dbt schema tests defined alongside models in `schema.yml` files to enforce data quality, including:
+- `not_null` and `unique` tests on primary keys in staging and mart models
+- Relationship tests to ensure referential integrity between staging and mart layers
+- Validation of required fields that support downstream analytics and BI
+
 
 ---
 
