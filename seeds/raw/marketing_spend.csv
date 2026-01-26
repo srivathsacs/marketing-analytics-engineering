@@ -1,3 +1,8 @@
 date,source,campaign,spend
-2024-02-01,Google,Brand,200
-2024-02-01,Facebook,Prospecting,300
+2024-01-01,Google,search_brand,60
+2024-01-01,Facebook,launch_ads,80
+2024-01-01,Google,search_nonbrand,40
+2024-01-01,Twitter,founder_posts,10
+2024-01-01,Facebook,retargeting,30
+2024-02-01,Google,search_brand,30
+2024-02-01,Facebook,launch_ads,40

@@ -1,3 +1,7 @@
 id,USER_ID,customer_name,product,amount,order_date
-101,1,John,Widget,100,2024-02-01
-102,2,Alice,Gadget,150,2024-02-03
+101,1,John,Widget,120,2024-01-10
+102,1,John,Widget,80,2024-01-25
+103,2,Alice,Gadget,150,2024-01-18
+104,3,Bob,Widget,200,2024-01-22
+105,4,Eve,Gadget,50,2024-01-28
+106,5,Dan,Widget,300,2024-02-05

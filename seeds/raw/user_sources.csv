@@ -1,3 +1,6 @@
 user_id,source,campaign,signup_date
-1,Google,Brand,2024-01-01
-2,Facebook,Prospecting,2024-01-05
+1,Google,search_brand,2024-01-01
+2,Facebook,launch_ads,2024-01-05
+3,Google,search_nonbrand,2024-01-10
+4,Twitter,founder_posts,2024-01-15
+5,Facebook,retargeting,2024-01-20
