@@ -22,15 +22,19 @@ The project is implemented using **dbt Core** and follows analytics engineering 
 ## Tech Stack
 - **Data Warehouse:** Snowflake
 - **Transformation:** dbt Core
+- **Ingestion (Production):** Supabase → Fivetran
 - **Modeling:** Dimensional (facts & dimensions)
 - **Visualization:** BI dashboard (sample output included)
-- **Development Mode:** Local execution (no dbt Cloud required)
+- **Development Mode:** Local execution (dbt Core)
+
 
 ---
 
 ## Architecture
 ```text
-Marketing Sources / Transactions
+Supabase (Application Data)
+            ↓
+        Fivetran (ELT)
             ↓
         Snowflake (RAW)
             ↓
@@ -38,9 +42,10 @@ Marketing Sources / Transactions
   (staging → intermediate → marts)
             ↓
        BI / Analytics Layer
+
 ```
 
-This architecture mirrors a production analytics stack while remaining fully runnable in a local development environment.
+For local development and reproducibility, the project also supports dbt seeds as a fallback data source when ingestion tooling (e.g., Fivetran trial) is unavailable.
 
 ---
 
@@ -58,6 +63,8 @@ models/
 ├── staging/
 ├── intermediate/
 ├── marts/
+seeds/
+├── raw/	
 ```
 
 ---
@@ -70,7 +77,11 @@ models/
 ---
 
 ## Local Development Setup
-This project runs locally using **dbt Core**. Cloud orchestration tools are not required. 
+This project runs locally using **dbt Core**.
+
+Two execution modes are supported:
+- **Production-like:** Supabase → Fivetran → Snowflake
+- **Local / Demo:** dbt seeds (no external ingestion required)
 
 Environment variables can be configured using the provided `.env.example` file.
 
@@ -118,7 +129,18 @@ dbt debug
 
 ---
 
-## Step 4: Run models and tests
+## Step 4: Load demo data (local mode)
+When Fivetran is unavailable or expired, load demo data using dbt seeds:
+
+```bash
+dbt seed
+```
+
+Seed files mirror the minimal raw schemas required for downstream models.
+
+---
+
+## Step 5: Run models and tests
 ```bash
 dbt run
 dbt test
@@ -126,7 +148,7 @@ dbt test
 
 ---
 
-## Step 5: Generate documentation
+## Step 6: Generate documentation
 ```bash
 dbt docs generate
 dbt docs serve
@@ -145,11 +167,13 @@ Manual metric validation queries are included in the `analysis/` directory to sa
 
 ---
 
-## Data Contracts & Assumptions
-- One row per user in the users table
-- One row per order in the orders table
-- Marketing spend is reported daily at the campaign level
+## Metrics Definitions & Assumptions
+- **Customer LTV:** Historical lifetime revenue per customer
+- **CAC:** Blended marketing spend ÷ acquired customers
+- **LTV / CAC:** Average customer LTV ÷ blended CAC
+- **ROAS:** Revenue ÷ marketing spend (campaign-level)
 - Attribution model is last-touch
+- Marketing spend is reported daily at the campaign level
 - All monetary values are in a single currency
 
 ---
@@ -158,7 +182,7 @@ Manual metric validation queries are included in the `analysis/` directory to sa
 The final marts layer powers an example BI dashboard that answers:
 - How much are we spending to acquire customers?
 - Which campaigns generate the highest ROAS?
-- How does customer lifetime value compare across channels?
+- How does customer lifetime value compare to acquisition cost?
 
 ![Marketing Analytics Dashboard](dashboard.png)
 
@@ -184,7 +208,7 @@ This project was built to demonstrate:
 
 ## CI / Production Considerations
 
-In a production environment, this project would include CI checks on pull requests to validate analytics changes before deployment. At a minimum, CI would run `dbt compile` and `dbt test` to catch schema changes, data quality issues, and broken relationships early in the development workflow.
+In a production environment, this project would include CI checks on pull requests to validate analytics changes before deployment. At a minimum, CI would run `dbt compile` and `dbt test` to catch schema changes, data quality issues, and broken relationships early in the development workflow. Source freshness checks would be monitored to ensure timely data availability.
 
 ---
 

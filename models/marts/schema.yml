@@ -31,3 +31,11 @@ models:
         description: Marketing acquisition source / channel
         tests:
           - not_null
+          
+  - name: customer_ltv
+    description: Customer lifetime value (historical)
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+          - unique

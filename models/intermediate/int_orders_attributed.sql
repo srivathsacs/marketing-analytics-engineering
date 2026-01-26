@@ -8,6 +8,7 @@ user_sources as (
     select * from {{ ref('stg_user_sources') }}
 )
 select
+	o.user_id,
     o.order_id,
     o.customer_name,
     o.order_date,

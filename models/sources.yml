@@ -7,8 +7,8 @@ sources:
       These tables represent the source-of-truth for all downstream analytics models in this project.
       No transformations should be performed in this schema — only cleaning and modeling downstream.
 
-    database: MARKETING_ANALYTICS
-    schema: RAW
+    database: "{{ target.database }}"
+    schema: "{{ target.schema }}"
 
     tables:
       - name: users

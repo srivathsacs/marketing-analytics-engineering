@@ -37,7 +37,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   marketing_analytics_engineering:
-    +database: MARKETING_ANALYTICS
+    +database: "{{ target.database }}"
 
     staging:
       +schema: STAGING
@@ -46,3 +46,4 @@ models:
     marts:
       +schema: MARTS
       +materialized: table
+      
