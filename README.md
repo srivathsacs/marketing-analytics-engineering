@@ -179,12 +179,35 @@ Manual metric validation queries are included in the `analysis/` directory to sa
 ---
 
 ## Analytics Output
-The final marts layer powers an example BI dashboard that answers:
-- How much are we spending to acquire customers?
-- Which campaigns generate the highest ROAS?
-- How does customer lifetime value compare to acquisition cost?
+
+The final marts layer powers a **Power BI dashboard** focused on marketing unit economics.  
+The dashboard is intentionally minimal and designed to reflect the metric grains defined in dbt.
+
+### Business questions answered
+
+**How much are we spending to acquire customers?**  
+- Answered using **Blended CAC**, shown as a global KPI representing the average cost to acquire a customer across all channels.
+
+**Which campaigns generate the highest ROAS?**  
+- The dashboard presents **overall (blended) ROAS**.
+- Campaigns are listed for context, but ROAS is explicitly **not attributed at the campaign level** to avoid misleading comparisons.
+
+**How does customer lifetime value compare to acquisition cost?**  
+- Answered using **Avg Customer LTV**, **Blended CAC**, and the **LTV/CAC ratio**, all displayed as global KPIs.
+
+### Design notes
+
+- All business logic and metric definitions are implemented in **dbt**.
+- Power BI is used strictly as a **consumption and visualization layer**.
+- Metrics are only visualized at valid grains; attribution limits are made explicit.
+- No additional calculations or transformations are performed in Power BI.
+
+This approach prioritizes **clarity, correctness, and analytical discipline** over over-attribution or cosmetic complexity. 
+
 
 ![Marketing Analytics Dashboard](dashboard.png)
+
+The final marts layer powers a **Power BI dashboard** focused on marketing unit economics.
 
 ---
 
