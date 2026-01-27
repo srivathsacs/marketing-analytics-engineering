@@ -6,6 +6,8 @@ sources:
       Raw, immutable data ingested from the application database and marketing platforms.
       These tables represent the source-of-truth for all downstream analytics models in this project.
       No transformations should be performed in this schema — only cleaning and modeling downstream.
+      In production, these tables are populated via managed ingestion tools (e.g., Fivetran). 
+      In this repository, they are simulated using dbt seeds for local reproducibility.
 
     database: "{{ target.database }}"
     schema: "{{ target.schema }}"

@@ -11,7 +11,7 @@ The project is implemented using **dbt Core** and follows analytics engineering 
 
 ## Key Features
 - End-to-end marketing analytics pipeline
-- dbt-based transformation layer (raw → staging → marts)
+- dbt-based transformation layer (RAW → staging → intermediate → marts)
 - Business-ready metrics such as CAC, ROAS, and LTV
 - Data quality and integrity testing
 - Analytics-ready fact and dimension tables
@@ -36,13 +36,12 @@ Supabase (Application Data)
             ↓
         Fivetran (ELT)
             ↓
-        Snowflake (RAW)
+        Snowflake (PUBLIC / RAW)
             ↓
           dbt Core
   (staging → intermediate → marts)
             ↓
        BI / Analytics Layer
-
 ```
 
 For local development and reproducibility, the project also supports dbt seeds as a fallback data source when ingestion tooling (e.g., Fivetran trial) is unavailable.
@@ -70,6 +69,7 @@ seeds/
 ---
 
 ## Layering Principles
+- **RAW:** Analytics contract over ingested data
 - **Staging:** One-to-one with source tables, minimal logic
 - **Intermediate:** Shared transformations and joins
 - **Marts:** Business metrics optimized for analytics and BI
@@ -236,4 +236,5 @@ In a production environment, this project would include CI checks on pull reques
 ---
 
 ## Notes
-This repository is intentionally designed to run locally using open-source tooling. Cloud-native features are represented conceptually where appropriate.
+This repository is designed as a production-grade ELT system.
+For local reproducibility, ingestion is simulated using dbt seeds while preserving production modeling patterns and contracts.
